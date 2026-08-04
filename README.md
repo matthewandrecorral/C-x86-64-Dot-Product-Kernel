@@ -208,43 +208,13 @@ The following Visual Studio Debug x64 execution shows the C result, x86-64 resul
 
 Timing values in the screenshot come from one Debug execution and can vary between runs because of normal system conditions.
 
-## Demonstration Videos
+## 12. Demonstration Video
 
-The assignment requires short videos lasting approximately 5–10 minutes that show the source code, compilation, and execution. The links below are placeholders and will not work until real video links are added.
+The following demonstration shows the source code, compilation, execution, correctness checks, and performance comparison for the C and x86-64 kernels.
 
-### C Kernel Demonstration
+### C and x86-64 Demonstration
 
-[Watch the C kernel demonstration](ADD_C_VIDEO_LINK_HERE)
-
-### x86-64 Kernel Demonstration
-
-[Watch the x86-64 kernel demonstration](ADD_X86_64_VIDEO_LINK_HERE)
-
-The videos may be uploaded to:
-
-- Google Drive
-- YouTube as unlisted
-- Another platform approved by the instructor
-
-Large video files should normally not be committed directly to the Git repository. Host them on an approved platform and replace the placeholders above with shareable links.
-
-### Recommended video outline
-
-1. Introduce the project objective.
-2. Show `main.c`.
-3. Show `dot_product.c`.
-4. Explain the C dot-product loop.
-5. Show `dot_product.asm`.
-6. Explain `RCX`, `RDX`, `R8`, and `R9`.
-7. Explain `XMM0` and `XMM1`.
-8. Explain `MOVSD`, `MULSD`, and `ADDSD`.
-9. Show `.vscode/tasks.json`.
-10. Build the Release version.
-11. Execute the Release program.
-12. Show the correctness check.
-13. Build and execute the Debug version.
-14. Compare the execution times.
-15. Give a short conclusion.
+[Demonstration video link](https://drive.google.com/file/d/10zYN18WOicmDzyVHx2kNk7Q0ilVZFOFi/view?usp=sharing)
 
 ## 13. Memory Requirements
 
