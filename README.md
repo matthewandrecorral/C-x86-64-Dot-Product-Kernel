@@ -165,11 +165,17 @@ Each element requires two 8-byte loads, or 16 bytes of input traffic, for one mu
 
 The comparison is fair with respect to the assignment: both kernels receive the same initialized vectors, use the same result type, run 20 times, and are timed only around the kernel call. Warm-up calls reduce first-call effects, and correctness is checked after measurement. Remaining variation can come from operating-system scheduling, background activity, CPU frequency changes, cache state, and thermal conditions. The measurements characterize this test system and should not be interpreted as universal performance values.
 
-## 10–11. C and x86-64 Correctness Screenshot
+## 10. C Correctness Screenshot
 
-The following Visual Studio Debug x64 execution shows the C result, x86-64 result, average kernel times, and successful correctness check for all three vector sizes. Each C result exactly matches its corresponding x86-64 result, and every test reports `Correctness check: PASSED`.
+The following Visual Studio Debug x64 screenshot shows the C kernel output for all three tested vector sizes. The displayed C results provide the reference values used to verify the x86-64 implementation.
 
-![Visual Studio output showing matching C and x86-64 results with successful correctness checks](correctness_check.png)
+![Visual Studio output showing the C kernel results for all tested vector sizes](correctness_check.png)
+
+## 11. x86-64 Correctness Screenshot
+
+The same screenshot also shows the x86-64 kernel output beside each corresponding C result. Every x86-64 result matches the C reference result, and every test reports `Correctness check: PASSED`, confirming that the x86-64 kernel output is correct.
+
+![Visual Studio output showing matching x86-64 and C results with successful correctness checks](correctness_check.png)
 
 Timing values in the screenshot come from one Debug execution and can vary between runs because of normal system conditions.
 
