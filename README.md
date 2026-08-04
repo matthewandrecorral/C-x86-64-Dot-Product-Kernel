@@ -209,56 +209,13 @@ The comparison is fair with respect to the assignment: both kernels receive the 
 
 > **TODO:** Add a screenshot showing the C result, correctness check, and average C kernel execution time. The referenced image is not currently present.
 
-## 11. x86-64 Correctness Screenshot
-
-### x86-64 Program Output and Correctness Check
-
-![x86-64 program output and correctness check](screenshots/x86-64-correctness-check.png)
-
-> **TODO:** Add a screenshot showing the x86-64 result, correctness check, and average x86-64 kernel execution time. The referenced image is not currently present.
-
-Because the current program displays both results in one console output, the student may either:
-
-- Use the same full screenshot for both requirements.
-- Create two cropped screenshots highlighting the appropriate result.
-
 ## Demonstration Videos
 
 The assignment requires short videos lasting approximately 5–10 minutes that show the source code, compilation, and execution. The links below are placeholders and will not work until real video links are added.
 
-### C Kernel Demonstration
+### Demonstration
 
-[Watch the C kernel demonstration](ADD_C_VIDEO_LINK_HERE)
-
-### x86-64 Kernel Demonstration
-
-[Watch the x86-64 kernel demonstration](ADD_X86_64_VIDEO_LINK_HERE)
-
-The videos may be uploaded to:
-
-- Google Drive
-- YouTube as unlisted
-- Another platform approved by the instructor
-
-Large video files should normally not be committed directly to the Git repository. Host them on an approved platform and replace the placeholders above with shareable links.
-
-### Recommended video outline
-
-1. Introduce the project objective.
-2. Show `main.c`.
-3. Show `dot_product.c`.
-4. Explain the C dot-product loop.
-5. Show `dot_product.asm`.
-6. Explain `RCX`, `RDX`, `R8`, and `R9`.
-7. Explain `XMM0` and `XMM1`.
-8. Explain `MOVSD`, `MULSD`, and `ADDSD`.
-9. Show `.vscode/tasks.json`.
-10. Build the Release version.
-11. Execute the Release program.
-12. Show the correctness check.
-13. Build and execute the Debug version.
-14. Compare the execution times.
-15. Give a short conclusion.
+[Demonstration video link](https://drive.google.com/file/d/10zYN18WOicmDzyVHx2kNk7Q0ilVZFOFi/view?usp=sharing)
 
 ## 13. Memory Requirements
 
