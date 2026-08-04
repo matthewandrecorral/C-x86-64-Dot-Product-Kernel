@@ -7,13 +7,6 @@
 #define NUMBER_OF_RUNS 20
 #define NUMBER_OF_SIZES 3
 
-/*
-    Kernel function declarations.
-
-    The function bodies will be placed in:
-        dot_product.c
-        dot_product.asm
-*/
 void dot_product_c(
     const double* vector_a,
     const double* vector_b,
@@ -29,9 +22,6 @@ void dot_product_asm(
 );
 
 
-/*
-    Returns the current high-resolution timer value.
-*/
 static LARGE_INTEGER get_timer_value(void)
 {
     LARGE_INTEGER timer_value;
@@ -42,9 +32,6 @@ static LARGE_INTEGER get_timer_value(void)
 }
 
 
-/*
-    Converts two timer readings into elapsed seconds.
-*/
 static double get_elapsed_seconds(
     LARGE_INTEGER start,
     LARGE_INTEGER end,
@@ -56,12 +43,6 @@ static double get_elapsed_seconds(
 }
 
 
-/*
-    Initializes both vectors.
-
-    Small repeating values are used so that the result
-    does not become unnecessarily difficult to verify.
-*/
 static void initialize_vectors(
     double* vector_a,
     double* vector_b,
@@ -76,12 +57,6 @@ static void initialize_vectors(
 }
 
 
-/*
-    Compares the C result and the assembly result.
-
-    A tolerance is used because floating-point values
-    should not normally be compared using ==.
-*/
 static int results_are_equal(
     double c_result,
     double asm_result
@@ -102,14 +77,6 @@ static int results_are_equal(
 
 int main(void)
 {
-    /*
-        Required vector lengths:
-
-            2^20
-            2^24
-            2^28
-            2^30
-    */
     const unsigned int exponents[NUMBER_OF_SIZES] =
     {
         20,
@@ -139,15 +106,8 @@ int main(void)
     {
         const unsigned int exponent = exponents[size_index];
 
-        /*
-            size_t is used because the vector may contain
-            more elements than a 32-bit integer can safely handle.
-        */
         const size_t n = ((size_t)1) << exponent;
 
-        /*
-            Prevent overflow before calculating the allocation size.
-        */
         if (n > SIZE_MAX / sizeof(double))
         {
             fprintf(
@@ -199,21 +159,12 @@ int main(void)
             / (1024.0 * 1024.0 * 1024.0)
         );
 
-        /*
-            Vector initialization is outside the timed section.
-        */
         printf("Initializing vectors...\n");
         initialize_vectors(vector_a, vector_b, n);
 
         double c_result = 0.0;
         double asm_result = 0.0;
 
-        /*
-            Warm-up calls.
-
-            These are not included in the recorded execution time.
-            They help reduce first-call timing irregularities.
-        */
         dot_product_c(
             vector_a,
             vector_b,
@@ -231,9 +182,6 @@ int main(void)
         double total_c_time = 0.0;
         double total_asm_time = 0.0;
 
-        /*
-            Time the C kernel 20 times.
-        */
         for (int run = 0; run < NUMBER_OF_RUNS; run++)
         {
             LARGE_INTEGER start_time;
@@ -259,9 +207,6 @@ int main(void)
             );
         }
 
-        /*
-            Time the x86-64 assembly kernel 20 times.
-        */
         for (int run = 0; run < NUMBER_OF_RUNS; run++)
         {
             LARGE_INTEGER start_time;
@@ -321,10 +266,6 @@ int main(void)
             average_asm_time
         );
 
-        /*
-            A value greater than 1 means that the assembly
-            kernel is faster than the C kernel.
-        */
         if (average_asm_time > 0.0)
         {
             const double speedup =

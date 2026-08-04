@@ -1,13 +1,5 @@
 #include <stddef.h>
 
-/*
-    Calculates the dot product of vector A and vector B.
-
-    sdot = A[0] * B[0]
-         + A[1] * B[1]
-         + ...
-         + A[n - 1] * B[n - 1]
-*/
 void dot_product_c(
     const double* vector_a,
     const double* vector_b,
