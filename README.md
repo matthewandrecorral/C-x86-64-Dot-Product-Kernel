@@ -29,15 +29,14 @@ DotProductProject/
 ├── DotProductProject.sln
 ├── DotProductProject.vcxproj
 ├── DotProductProject.vcxproj.filters
+├── correctness_check.png
 ├── README.md
 ├── .gitignore
 ├── .vscode/
 │   └── tasks.json
-├── screenshots/
-└── videos/
 ```
 
-The `screenshots/` and `videos/` directories are currently empty placeholders for assignment media.
+The correctness screenshot is stored directly in the repository so that GitHub can render it inside this README. Demonstration videos are hosted externally and linked below.
 
 ## 3. C Kernel
 
@@ -201,26 +200,13 @@ Each element requires two 8-byte loads, or 16 bytes of input traffic, for one mu
 
 The comparison is fair with respect to the assignment: both kernels receive the same initialized vectors, use the same result type, run 20 times, and are timed only around the kernel call. Warm-up calls reduce first-call effects, and correctness is checked after measurement. Remaining variation can come from operating-system scheduling, background activity, CPU frequency changes, cache state, and thermal conditions. The measurements characterize this test system and should not be interpreted as universal performance values.
 
-## 10. C Correctness Screenshot
+## 10–11. C and x86-64 Correctness Screenshot
 
-### C Program Output and Correctness Check
+The following Visual Studio Debug x64 execution shows the C result, x86-64 result, average kernel times, and successful correctness check for all three vector sizes. Each C result exactly matches its corresponding x86-64 result, and every test reports `Correctness check: PASSED`.
 
-![C program output and correctness check](screenshots/c-correctness-check.png)
+![Visual Studio output showing matching C and x86-64 results with successful correctness checks](correctness_check.png)
 
-> **TODO:** Add a screenshot showing the C result, correctness check, and average C kernel execution time. The referenced image is not currently present.
-
-## 11. x86-64 Correctness Screenshot
-
-### x86-64 Program Output and Correctness Check
-
-![x86-64 program output and correctness check](screenshots/x86-64-correctness-check.png)
-
-> **TODO:** Add a screenshot showing the x86-64 result, correctness check, and average x86-64 kernel execution time. The referenced image is not currently present.
-
-Because the current program displays both results in one console output, the student may either:
-
-- Use the same full screenshot for both requirements.
-- Create two cropped screenshots highlighting the appropriate result.
+Timing values in the screenshot come from one Debug execution and can vary between runs because of normal system conditions.
 
 ## Demonstration Videos
 
