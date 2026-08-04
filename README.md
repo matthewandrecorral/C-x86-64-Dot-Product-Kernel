@@ -26,6 +26,9 @@ DotProductProject/
 ├── main.c
 ├── dot_product.c
 ├── dot_product.asm
+├── DotProductProject.sln
+├── DotProductProject.vcxproj
+├── DotProductProject.vcxproj.filters
 ├── README.md
 ├── .gitignore
 ├── .vscode/
@@ -94,16 +97,29 @@ dot_product_loop:
 ## 5. Requirements
 
 - Windows 10 or Windows 11
-- Visual Studio Code
-- Microsoft C/C++ extension
-- Visual Studio Build Tools
-- Desktop development with C++ workload
+- Visual Studio with the **Desktop development with C++** workload
 - MSVC `cl.exe`
 - MASM `ml64.exe`
-- x64 Native Tools Command Prompt
 - Git for Windows
 
+Visual Studio Code and the Microsoft C/C++ extension are optional. The included `.vscode/tasks.json` provides the same Debug and Release build commands for users who prefer VS Code.
+
 ## 6. Building the Program
+
+### Visual Studio
+
+1. Open `DotProductProject.sln` in Visual Studio.
+2. Choose either **Debug** or **Release** from the solution configuration list.
+3. Choose **x64** as the solution platform.
+4. Select **Build > Build Solution** or press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd>.
+5. Select **Debug > Start Without Debugging** or press <kbd>Ctrl</kbd> + <kbd>F5</kbd> to run the program.
+
+Visual Studio builds the C kernels with MSVC, assembles `dot_product.asm` with MASM, and links them into one executable. The outputs are:
+
+- `x64\Debug\dotproduct_debug.exe`
+- `x64\Release\dotproduct_release.exe`
+
+### Visual Studio Code alternative
 
 Open Visual Studio Code from the **x64 Native Tools Command Prompt** so that the MSVC and MASM tools are available:
 
@@ -112,7 +128,7 @@ cd /d "C:\Users\matth\Documents\DotProductProject"
 code .
 ```
 
-### Release build
+#### Release build
 
 1. Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd>.
 2. Select **Build Release x64**.
@@ -122,7 +138,7 @@ code .
 .\dotproduct_release.exe
 ```
 
-### Debug build
+#### Debug build
 
 1. Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>.
 2. Select **Tasks: Run Task**.
@@ -159,25 +175,25 @@ The required \(2^{30}\) case would require approximately 16 GiB for the two inpu
 
 | Vector Size | Elements | C Average | x86-64 Average | C / x86-64 Ratio | Faster Kernel |
 |---|---:|---:|---:|---:|---|
-| \(2^{20}\) | 1,048,576 | 1.193780 ms | 1.300840 ms | 0.918x | C by 8.2% |
-| \(2^{24}\) | 16,777,216 | 16.882730 ms | 17.363045 ms | 0.972x | C by 2.8% |
-| \(2^{28}\) | 268,435,456 | 531.532825 ms | 576.758090 ms | 0.922x | C by 7.8% |
+| \(2^{20}\) | 1,048,576 | 0.969545 ms | 0.998995 ms | 0.971x | C by 2.9% |
+| \(2^{24}\) | 16,777,216 | 17.349870 ms | 16.965565 ms | 1.023x | x86-64 by 2.2% |
+| \(2^{28}\) | 268,435,456 | 288.886575 ms | 289.906800 ms | 0.996x | C by 0.4% |
 
 ### Debug build (`/Od`)
 
 | Vector Size | Elements | C Average | x86-64 Average | C / x86-64 Ratio | Faster Kernel |
 |---|---:|---:|---:|---:|---|
-| \(2^{20}\) | 1,048,576 | 2.902110 ms | 0.847770 ms | 3.423x | x86-64 by 70.8% |
-| \(2^{24}\) | 16,777,216 | 51.841800 ms | 17.111210 ms | 3.030x | x86-64 by 67.0% |
-| \(2^{28}\) | 268,435,456 | 787.495750 ms | 434.191755 ms | 1.814x | x86-64 by 44.9% |
+| \(2^{20}\) | 1,048,576 | 3.334720 ms | 1.267850 ms | 2.630x | x86-64 by 62.0% |
+| \(2^{24}\) | 16,777,216 | 51.431515 ms | 18.070605 ms | 2.846x | x86-64 by 64.9% |
+| \(2^{28}\) | 268,435,456 | 840.621760 ms | 297.824735 ms | 2.823x | x86-64 by 64.6% |
 
 The ratio is calculated as `C time / x86-64 time`. A value above 1.0 means the assembly kernel was faster, while a value below 1.0 means the C kernel was faster. Execution times depend on current system load, processor frequency, and memory state, so repeated executions may produce slightly different values.
 
 ## 9. Performance Analysis
 
-The results demonstrate why build configuration must be considered when comparing C and assembly. In the Debug build, the C compiler used `/Od`, so it deliberately avoided optimization. The handwritten assembly kernel did not change between configurations and was therefore 1.814x to 3.423x faster than Debug C. The advantage decreased at the largest size because both kernels became increasingly constrained by memory access rather than instruction overhead.
+The results demonstrate why build configuration must be considered when comparing C and assembly. In the Debug build, the C compiler used `/Od`, so it deliberately avoided optimization. The handwritten assembly kernel did not change between configurations and was therefore 2.630x to 2.846x faster than Debug C across the three sizes. This large, consistent advantage comes primarily from comparing deliberately unoptimized C with an already hand-optimized assembly loop.
 
-In the Release build, `/O2` allowed the compiler to optimize the C loop, its address calculations, and loop control. Optimized C was slightly faster for all three tested sizes: 8.2% at \(2^{20}\), 2.8% at \(2^{24}\), and 7.8% at \(2^{28}\). This shows that handwritten assembly is not automatically faster than optimized compiler output.
+In the Release build, `/O2` allowed the compiler to optimize the C loop, its address calculations, and loop control. The two Release kernels were within 3% at every tested size. C was 2.9% faster at \(2^{20}\), assembly was 2.2% faster at \(2^{24}\), and C was 0.4% faster at \(2^{28}\). Differences this small can change between benchmark executions as system conditions vary. The appropriate conclusion is that optimized C and the scalar assembly kernel performed comparably—not that either language was universally faster.
 
 The assembly kernel intentionally satisfies the scalar-SIMD requirement by processing one double per iteration with `MOVSD`, `MULSD`, and `ADDSD`. Its single `XMM0` accumulator creates a loop-carried dependency: each `ADDSD` must wait for the previous sum before the next sum can complete. This limits instruction-level parallelism. Multiple independent accumulators could reduce that dependency, but doing so would change the deliberately simple scalar kernel and could alter the order of floating-point addition.
 
@@ -265,6 +281,6 @@ Large video files should normally not be committed directly to the Git repositor
 
 ## 15. Conclusion
 
-Both kernels produced identical results for \(2^{20}\), \(2^{24}\), and \(2^{28}\), and every correctness check passed in both Debug and Release builds. Assembly substantially outperformed unoptimized Debug C, while optimized Release C was slightly faster than the scalar assembly kernel at every tested size. The experiment demonstrates that performance depends on compiler optimization, instruction dependencies, cache capacity, and memory bandwidth—not simply on whether code is written in C or assembly.
+Both kernels produced identical results for \(2^{20}\), \(2^{24}\), and \(2^{28}\), and every correctness check passed in both Debug and Release builds. Assembly substantially outperformed unoptimized Debug C, while optimized Release C and scalar assembly were within 3% of each other at every tested size. The experiment demonstrates that performance depends on compiler optimization, instruction dependencies, cache capacity, and memory bandwidth—not simply on whether code is written in C or assembly.
 
 The \(2^{30}\) test was not performed because the two input vectors alone require approximately 16 GiB of memory, equal to the system's total installed RAM. Additional memory is required by the operating system and other processes, making that test impractical on the available hardware. The specification explicitly permits reducing this case to \(2^{28}\) or \(2^{29}\), so \(2^{28}\) was measured instead.
