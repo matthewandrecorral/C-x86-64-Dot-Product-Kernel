@@ -9,9 +9,9 @@ This project calculates the dot product of two double-precision vectors using tw
 
 For vectors \(A\) and \(B\) containing \(n\) elements, the calculation is:
 
-\[
+$$
 \text{sdot} = \sum_{i=0}^{n-1} A[i] \times B[i]
-\]
+$$
 
 In words, `sdot` is the sum of `A[i]` multiplied by `B[i]`, from `i = 0` to `n - 1`.
 
@@ -31,9 +31,8 @@ DotProductProject/
 ├── DotProductProject.vcxproj.filters
 ├── correctness_check.png
 ├── README.md
-├── .gitignore
-├── .vscode/
-│   └── tasks.json
+├── .gitattributes
+└── .gitignore
 ```
 
 The correctness screenshot is stored directly in the repository so that GitHub can render it inside this README. Demonstration videos are hosted externally and linked below.
@@ -101,11 +100,7 @@ dot_product_loop:
 - MASM `ml64.exe`
 - Git for Windows
 
-Visual Studio Code and the Microsoft C/C++ extension are optional. The included `.vscode/tasks.json` provides the same Debug and Release build commands for users who prefer VS Code.
-
 ## 6. Building the Program
-
-### Visual Studio
 
 1. Open `DotProductProject.sln` in Visual Studio.
 2. Choose either **Debug** or **Release** from the solution configuration list.
@@ -118,37 +113,7 @@ Visual Studio builds the C kernels with MSVC, assembles `dot_product.asm` with M
 - `x64\Debug\dotproduct_debug.exe`
 - `x64\Release\dotproduct_release.exe`
 
-### Visual Studio Code alternative
-
-Open Visual Studio Code from the **x64 Native Tools Command Prompt** so that the MSVC and MASM tools are available:
-
-```bat
-cd /d "C:\Users\matth\Documents\DotProductProject"
-code .
-```
-
-#### Release build
-
-1. Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd>.
-2. Select **Build Release x64**.
-3. Run the program:
-
-```powershell
-.\dotproduct_release.exe
-```
-
-#### Debug build
-
-1. Press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>.
-2. Select **Tasks: Run Task**.
-3. Select **Build Debug x64**.
-4. Run the program:
-
-```powershell
-.\dotproduct_debug.exe
-```
-
-The Release task enables C compiler optimization, while the Debug task disables C compiler optimization. The assembly algorithm remains essentially the same in both configurations.
+The Release configuration enables C compiler optimization, while the Debug configuration disables C compiler optimization. The assembly algorithm remains the same in both configurations.
 
 ## 7. Correctness Verification
 
@@ -166,7 +131,7 @@ Correctness check: PASSED
 
 ## 8. Comparative Execution Time
 
-The following measurements were recorded on a 12th Gen Intel Core i5-12500H running 64-bit Windows. Each value is the arithmetic mean of 20 kernel executions. A warm-up call was performed before measurement, and vector allocation and initialization were excluded from the timed region. `QueryPerformanceCounter` measured only the call to the selected dot-product kernel.
+The following measurements were recorded with Visual Studio 2026 and the MSVC v145 toolset on a 12th Gen Intel Core i5-12500H running 64-bit Windows. Each value is the arithmetic mean of 20 kernel executions. A warm-up call was performed before measurement, and vector allocation and initialization were excluded from the timed region. `QueryPerformanceCounter` measured only the call to the selected dot-product kernel.
 
 The required \(2^{30}\) case would require approximately 16 GiB for the two input vectors alone. Because that size was not practical on the test computer, the specification's permitted reduced size of \(2^{28}\) was used.
 
@@ -211,6 +176,8 @@ Timing values in the screenshot come from one Debug execution and can vary betwe
 ## 12. Demonstration Video
 
 The following demonstration shows the source code, compilation, execution, correctness checks, and performance comparison for the C and x86-64 kernels.
+
+The video is 8 minutes 45 seconds long, which is within the required 5–10 minute duration.
 
 ### C and x86-64 Demonstration
 

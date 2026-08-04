@@ -23,6 +23,7 @@ x64/
 
 # Visual Studio local state
 .vs/
+*.vcxproj.user
 
 # Demonstration videos are hosted externally rather than committed.
 videos/
@@ -31,12 +32,11 @@ videos/
 *.avi
 *.mkv
 
-# Preserve the project sources, documentation, build tasks, and real screenshots.
+# Preserve the project sources, documentation, and real screenshots.
 !main.c
 !dot_product.c
 !dot_product.asm
 !README.md
-!.vscode/
-!.vscode/tasks.json
-!screenshots/
-!screenshots/**
+
+# Assignment specification image is retained locally only.
+specs.png
