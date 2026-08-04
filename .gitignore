@@ -1,0 +1,42 @@
+# Visual C++ and MASM build outputs
+*.obj
+*.exe
+*.pdb
+*.ilk
+*.idb
+*.exp
+*.lib
+*.tlog
+*.log
+
+# Temporary and editor files
+*.tmp
+*.temp
+*.bak
+*.swp
+*~
+
+# Common Visual Studio build directories
+Debug/
+Release/
+x64/
+
+# Visual Studio local state
+.vs/
+
+# Demonstration videos are hosted externally rather than committed.
+videos/
+*.mp4
+*.mov
+*.avi
+*.mkv
+
+# Preserve the project sources, documentation, build tasks, and real screenshots.
+!main.c
+!dot_product.c
+!dot_product.asm
+!README.md
+!.vscode/
+!.vscode/tasks.json
+!screenshots/
+!screenshots/**
